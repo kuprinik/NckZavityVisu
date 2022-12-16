@@ -8,7 +8,7 @@ export interface Batch {
   note?: string;
 }
 
-const baseUrl: string = 'http://localhost:5139/api';
+const baseUrl: string = 'http://localhost:5000/api';
 const batchesUrl = `${baseUrl}/Batches`;
 const getAll = () => axios.get<Batch[]>(batchesUrl);
 

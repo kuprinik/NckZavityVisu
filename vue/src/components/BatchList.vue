@@ -4,20 +4,16 @@ import batch, { type Batch } from '../services/batch';
 import { Grid } from '@progress/kendo-vue-grid';
 const batches = ref<Batch[]>((await batch.getAll()).data);
 const clolumns = [
-  { field: 'batchId' },
-  { field: 'startTs' },
-  { field: 'endTs' },
-  { field: 'note' },
+  { field: 'batchId', title: 'ID' },
+  { field: 'note', title: 'Status' },
+  { field: 'note', title: 'Torque' },
+  { field: 'startTs', title: 'Start' },
+  { field: 'endTs', title: 'End' },
 ];
 </script>
 
 <template>
-  <Grid
-    :data-items="batches"
-    :columns="clolumns"
-    ref="grid"
-    style="width: 440px"
-  />
+  <Grid :data-items="batches" :columns="clolumns" ref="grid" />
 </template>
 
 <style scoped></style>
