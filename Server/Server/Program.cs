@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Server.Data;
+using Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -14,6 +15,7 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin();
     });
 });
+builder.Services.AddHostedService<Export>();
 var app = builder.Build();
 app.MapControllers();
 app.UseDefaultFiles();

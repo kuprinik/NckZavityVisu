@@ -13,10 +13,9 @@ namespace Server.Migrations
                 name: "Batch",
                 columns: table => new
                 {
-                    BatchId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BatchId = table.Column<int>(type: "int", nullable: false),
                     StartTs = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTs = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTs = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -28,10 +27,9 @@ namespace Server.Migrations
                 name: "Screw",
                 columns: table => new
                 {
-                    ScrewId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ScrewId = table.Column<int>(type: "int", nullable: false),
                     StartTs = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StopTs = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTs = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)),
                     Ok = table.Column<bool>(type: "bit", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BatchId = table.Column<int>(type: "int", nullable: false)
@@ -78,14 +76,12 @@ namespace Server.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Data_ScrewId",
                 table: "Data",
-                column: "ScrewId",
-                unique: true);
+                column: "ScrewId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Screw_BatchId",
                 table: "Screw",
-                column: "BatchId",
-                unique: true);
+                column: "BatchId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

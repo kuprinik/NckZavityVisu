@@ -9,7 +9,7 @@ namespace Server.Models
         public DateTime EndTs { get; set; }
         public string? Note { get; set; }
         [JsonIgnore]
-        public Screw? Screw { get; set; }
+        public List<Screw>? Screws { get; set; }
 
     }
 }

@@ -25,13 +25,12 @@ namespace Server.Migrations
             modelBuilder.Entity("Server.Models.Batch", b =>
                 {
                     b.Property<int>("BatchId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BatchId"), 1L, 1);
-
                     b.Property<DateTime>("EndTs")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
@@ -58,6 +57,24 @@ namespace Server.Migrations
                     b.Property<int>("ScrewId")
                         .HasColumnType("int");
 
+                    b.Property<double>("SensFx")
+                        .HasColumnType("float");
+
+                    b.Property<double>("SensFy")
+                        .HasColumnType("float");
+
+                    b.Property<double>("SensFz")
+                        .HasColumnType("float");
+
+                    b.Property<double>("SensTx")
+                        .HasColumnType("float");
+
+                    b.Property<double>("SensTy")
+                        .HasColumnType("float");
+
+                    b.Property<double>("SensTz")
+                        .HasColumnType("float");
+
                     b.Property<double>("Ta7")
                         .HasColumnType("float");
 
@@ -79,13 +96,12 @@ namespace Server.Migrations
                     b.Property<double>("TcpTz")
                         .HasColumnType("float");
 
-                    b.Property<double>("Time")
-                        .HasColumnType("float");
+                    b.Property<long>("Time")
+                        .HasColumnType("bigint");
 
                     b.HasKey("DataId");
 
-                    b.HasIndex("ScrewId")
-                        .IsUnique();
+                    b.HasIndex("ScrewId");
 
                     b.ToTable("Data");
                 });
@@ -93,16 +109,15 @@ namespace Server.Migrations
             modelBuilder.Entity("Server.Models.Screw", b =>
                 {
                     b.Property<int>("ScrewId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScrewId"), 1L, 1);
 
                     b.Property<int>("BatchId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("EndTs")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
@@ -115,8 +130,7 @@ namespace Server.Migrations
 
                     b.HasKey("ScrewId");
 
-                    b.HasIndex("BatchId")
-                        .IsUnique();
+                    b.HasIndex("BatchId");
 
                     b.ToTable("Screw");
                 });
@@ -135,8 +149,8 @@ namespace Server.Migrations
             modelBuilder.Entity("Server.Models.Screw", b =>
                 {
                     b.HasOne("Server.Models.Batch", "Batch")
-                        .WithOne("Screw")
-                        .HasForeignKey("Server.Models.Screw", "BatchId")
+                        .WithMany("Screws")
+                        .HasForeignKey("BatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -145,7 +159,7 @@ namespace Server.Migrations
 
             modelBuilder.Entity("Server.Models.Batch", b =>
                 {
-                    b.Navigation("Screw");
+                    b.Navigation("Screws");
                 });
 
             modelBuilder.Entity("Server.Models.Screw", b =>
